@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mappings PUBLIC "-//DOZER//DTD MAPPINGS//EN"
+   "http://dozer.sourceforge.net/dtd/dozerbeanmapping.dtd">
+<mappings>
+	<!-- Configuration de Dozer -->
+	<configuration>
+		<stop-on-errors>true</stop-on-errors>
+		<date-format>MM/dd/yyyy HH:mm</date-format>
+		<wildcard>true</wildcard>
+	</configuration>
+
+	<!-- beans mappés par Dozer -->
+	<mapping>
+		<class-a>ma.jberrich.bean.Dept</class-a>
+		<class-b>ma.jberrich.model.Service</class-b>
+		<field>
+			<a>deptno</a>
+			<b>id</b>
+		</field>
+		<field>
+			<a>dname</a>
+			<b>nom</b>
+		</field>
+		<field>
+			<a>loc</a>
+			<b>local</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>ma.jberrich.bean.Emp</class-a>
+		<class-b>ma.jberrich.model.Employe</class-b>
+		<field>
+			<a>empno</a>
+			<b>id</b>
+		</field>
+		<field>
+			<a>ename</a>
+			<b>nom</b>
+		</field>
+		<field>
+			<a>age</a>
+			<b>age</b>
+		</field>
+		<field>
+			<a>job</a>
+			<b>fonction</b>
+		</field>
+		<field>
+			<a>sal</a>
+			<b>salaire</b>
+		</field>
+		<field>
+			<a>deptno</a>
+			<b>service.id</b>
+		</field>
+	</mapping>
+</mappings>
