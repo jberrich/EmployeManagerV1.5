@@ -1,27 +1,25 @@
 package ma.jberrich.dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sql2o.Connection;
+import com.j256.ormlite.stmt.QueryBuilder;
 
-import ma.jberrich.bean.Dept;
 import ma.jberrich.model.Service;
-import ma.jberrich.util.BeanMapper;
 
 public class ServiceDAO implements IServiceDAO {
 
-	private final static String QUERY_SELECT_SERVICE_BY_NAME = "SELECT * FROM DEPT WHERE DNAME = :name";
-	private final static String QUERY_SELECT_SERVICE_BY_ID   = "SELECT * FROM DEPT WHERE DEPTNO = :id";
-	private final static String QUERY_SELECT_ALL_SERVICES    = "SELECT * FROM DEPT";
-	
 	@Override
 	public Service getService(String nom) {
 		Service service = null;
 
-		try (Connection connection = DatabaseSource.getInstance().getConnection()) {
-			Dept dept = connection.createQuery(QUERY_SELECT_SERVICE_BY_NAME).addParameter("name", nom).executeAndFetchFirst(Dept.class);
-			service = BeanMapper.getInstance().map(dept);
+		try {
+			QueryBuilder<Service, Integer> builder = DatabaseSource.getInstance().getDeptDao().queryBuilder();
+			builder.where().like("dname", nom);
+			service = DatabaseSource.getInstance().getDeptDao().queryForFirst(builder.prepare());
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		return service;
@@ -31,9 +29,10 @@ public class ServiceDAO implements IServiceDAO {
 	public Service getServiceByID(int id) {
 		Service service = null;
 
-		try (Connection connection = DatabaseSource.getInstance().getConnection()) {
-			Dept dept = connection.createQuery(QUERY_SELECT_SERVICE_BY_ID).addParameter("id", id).executeAndFetchFirst(Dept.class);
-			service = BeanMapper.getInstance().map(dept);
+		try {
+			service = DatabaseSource.getInstance().getDeptDao().queryForId(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		return service;
@@ -42,13 +41,13 @@ public class ServiceDAO implements IServiceDAO {
 	@Override
 	public List<Service> getListeServices() {
 		List<Service> services = new ArrayList<>();
-		try (Connection connection = DatabaseSource.getInstance().getConnection()) {
-			List<Dept> depts = connection.createQuery(QUERY_SELECT_ALL_SERVICES).executeAndFetch(Dept.class);
-			for (Dept dept : depts) {
-				Service service = BeanMapper.getInstance().map(dept);
-				services.add(service);
-			}
+
+		try {
+			services = DatabaseSource.getInstance().getDeptDao().queryForAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
 		return services;
 	}
 
