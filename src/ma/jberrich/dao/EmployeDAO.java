@@ -23,6 +23,11 @@ public class EmployeDAO implements IEmployeDAO {
 
 		try {
 			employes = DatabaseSource.getInstance().getEmpDao().queryForAll();
+			// JB : replaced by foreignAutoRefresh = true in Employe.java
+//			for(Employe employe : employes) {
+//				employe.setService(DatabaseSource.getInstance().getDeptDao().queryForId(employe.getService().getId()));
+//				DatabaseSource.getInstance().getDeptDao().refresh(employe.getService());
+//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

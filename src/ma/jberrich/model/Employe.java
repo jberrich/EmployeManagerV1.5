@@ -30,7 +30,7 @@ public class Employe {
 	@DatabaseField(columnName = "SAL")
 	private int salaire;
 	
-	@DatabaseField(foreign = true, columnName = "DEPTNO")
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "DEPTNO")
 	private Service service;
 	
 }
